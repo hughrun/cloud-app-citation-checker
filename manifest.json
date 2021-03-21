@@ -1,0 +1,15 @@
+{
+   "id": "citation-checker",
+   "title": "Citation Checker",
+   "subtitle": "An ANZREG Hackathon app",
+   "author": "Hugh Rundle",
+   "description": "Checks CrossRef to ensure citations are accurate",
+   "icon": {
+      "type": "font",
+      "value": "fa fa-quote-right"
+   },
+   "license": "https://github.com/hughrun/cloud-app-citation-checker/LICENSE",
+   "pages": {
+      "config": "/#/configuration"
+   }
+}
