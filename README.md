@@ -23,7 +23,7 @@ More will be added in the future!
 ### Translations
 The app supports translations, but only English is available for now.
 
-To add a new language, go to `./assets/i18n` and drop in the relevant `{language}.json` file.
+To add a new language, go to `./src/i18n` and drop in the relevant `{language}.json` file.
 
 ---
 
