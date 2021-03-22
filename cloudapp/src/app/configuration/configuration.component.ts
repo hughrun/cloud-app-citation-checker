@@ -1,7 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Injectable, OnInit } from '@angular/core';
 import { AppService } from '../app.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { CloudAppConfigService, AlertService } from '@exlibris/exl-cloudapp-angular-lib';
+import { CloudAppConfigService, AlertService, CloudAppEventsService, CloudAppRestService } from '@exlibris/exl-cloudapp-angular-lib';
+import { CanActivate, Router } from '@angular/router';
+import { Observable, iif, of, isObservable } from 'rxjs';
+import { map, switchMap } from 'rxjs/operators';
+import { ErrorMessages } from '../static/error.component';
+import { TranslateService } from '@ngx-translate/core';
+import { marker as _ } from '@biesbjerg/ngx-translate-extract-marker';
 
 @Component({
   selector: 'app-configuration',
@@ -18,13 +24,17 @@ export class ConfigurationComponent implements OnInit {
     private appService: AppService,
     private fb: FormBuilder,
     private configService: CloudAppConfigService,
-    private alert: AlertService
+    private alert: AlertService,
+    private translate: TranslateService,
+    private router: Router
   ) { }
 
   ngOnInit() {
-    this.appService.setTitle('Configuration');
+
+    this.translate.get('Translate.Configuration.Title').subscribe(text => this.appService.setTitle(text));
+    
     this.form = this.fb.group({
-      InstitutionUrl: this.fb.control('', [Validators.required] ),
+      institutionUrl: this.fb.control('', [Validators.required] ),
       contactEmail: this.fb.control('', [Validators.required, Validators.email])
     });
     this.load();
@@ -42,41 +52,75 @@ export class ConfigurationComponent implements OnInit {
     this.saving = true;
     this.configService.set(this.form.value).subscribe(
       () => {
-        this.alert.success('Configuration successfully saved.');
+        this.alert.success(_('Translate.Configuration.SavedSuccessfully'));
         this.form.markAsPristine();
       },
       err => this.alert.error(err.message),
       ()  => this.saving = false
     );
-  }  
+  }
+
+  onLoadOrReset() {
+    this.configService.get().subscribe( response => {
+      console.log('response');
+    })
+  }
 
   get contactEmail() { return this.form.get('contactEmail')}
-  get InstitutionUrl() { return this.form.get('InstitutionUrl')}
+  get institutionUrl() { return this.form.get('institutionUrl')}
   
   getEmailErrorMessage() {
     
     if (this.contactEmail.hasError('required')) {
-      return 'You must enter a value';
+      return this.translate.instant('Translate.Errors.ValueMissing');
     }
 
     else if (this.contactEmail.hasError('email')) {
-      return 'Not a valid email'
+      return this.translate.instant('Translate.Errors.InvalidEmail')
     }
 
-    else return 'Invalid value'
+    else return this.translate.instant('Translate.Errors.InvalidValue');
     }
 
     getUrlErrorMessage() {
 
-      if (this.InstitutionUrl.hasError('required')) {
-        return 'You must enter a value';
+      if (this.institutionUrl.hasError('required')) {
+        return this.translate.instant('Translate.Errors.ValueMissing');
       }
 
-      else if (this.InstitutionUrl.hasError('url')) {
-        return 'Must be a valid URL beginning with "http://"'
+      else if (this.institutionUrl.hasError('url')) {
+        return this.translate.instant('Translate.Errors.InvalidInstitutionURL');
       }
 
-      else return 'Invalid value'
+      else return this.translate.instant('Translate.Errors.InvalidValue');
       }
 
+  }
+
+
+  @Injectable({
+    providedIn: 'root',
+  })
+  export class ConfigurationGuard implements CanActivate {
+    constructor (
+      private eventsService: CloudAppEventsService,
+      private restService: CloudAppRestService,
+      private router: Router
+    ) {}
+
+    // only general site administrators can access this page
+    canActivate(): Observable<boolean> {
+      return this.eventsService.getInitData().pipe(
+        switchMap( initData => this.restService.call(`/users/${initData.user.primaryId}`)),
+        map( user => {
+          if (!user.user_role.some(role => role.role_type.value = 'GenAdmin')) {
+            this.router.navigate(['/error'], {
+              queryParams: { error: ErrorMessages.NO_ACCESS}
+            });
+            return false;
+          }
+          return true;
+        })
+      )
+    }
   }

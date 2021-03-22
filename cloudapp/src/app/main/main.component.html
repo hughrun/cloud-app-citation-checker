@@ -3,26 +3,21 @@
   ></ng-container>
 
 <ng-template #noentities>
-  <h1>Welcome!</h1>
-  <p>Use this sample app to get you started. The app includes the following:</p>
-  <ul>
-    <li>Listener for the <code>onPageLoad</code> event</li>
-    <li>Performs an API call using the <code>restService</code> service</li>
-    <li>Updates the object using the <code>restService</code> service</li>
-    <li>Refreshes the page in Alma</li>
-  </ul>
-  <p>Use these building blocks to be on your way to developing your own Cloud App.</p>
-  <div class="highlight">Navigate to a page in Alma to view a list of entities.</div>
+  <h1 translate>Translate.Main.Title</h1>
+  <p translate>Translate.Main.Description</p>
+  <!-- <div class="highlight">Navigate to a page in Alma to view a list of entities.</div> -->
 </ng-template>
 
 <ng-template #entities>
+  <h1 translate>Translate.Main.Title</h1>
+  <p translate>Translate.Main.Description</p>
   <div class="eca-actions">
-    <button mat-flat-button color="secondary" (click)="clear()" [disabled]="!selectedEntity">Clear</button>
+    <button mat-flat-button color="secondary" (click)="clear()" [disabled]="!selectedEntity" translate>Translate.UI.Clear</button>
     <button mat-flat-button color="primary" (click)="update(apiResultArea.value)"
-      [disabled]="!apiResult || loading">Update
+      [disabled]="!apiResult || loading" translate>Translate.UI.Update
     </button>
   </div>
-  <h1>Entities</h1>
+  <h3>Entities</h3>
   <mat-card [style.display]="apiResult ? '' : 'none'">
     <mat-card-header>
       <mat-card-title>API Result</mat-card-title>

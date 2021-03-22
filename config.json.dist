@@ -1,0 +1,8 @@
+{
+   "title": "Citation Checker",
+   "subtitle": "Alma Cloud App for checking and validating citations from CrossRef",
+   "author": "Daniel Henderson, Bronwyn King, Hugh Rundle",
+   "env": "https://sandbox01-ap.alma.exlibrisgroup.com/institution/[INSTITUTION_HERE]",
+   "port": 4200,
+   "name": "citation-checker"
+}

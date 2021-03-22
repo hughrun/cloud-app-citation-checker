@@ -1,26 +1,33 @@
-<section>
-  <div buttons>
-    <button mat-flat-button type="button" color="primary" (click)="save()" [disabled]="!(form?.dirty)">Save</button>
-  </div>
-</section>
+<div class="title">
+  <h1 translate>Translate.Configuration.Title</h1>
+  <a [routerLink]="['']">
+    <button mat-raised-button><mat-icon>arrow_back</mat-icon>{{ 'Translate.UI.Back' | translate }}</button>
+  </a>
+</div>
 <div class="loading-shade" *ngIf="saving">
   <mat-progress-spinner mode="indeterminate" diameter="50"></mat-progress-spinner>
 </div>
 <div>
-  <p class="preamble">These details will be sent to CrossRef with each API call. This allows you to use the more reliable servers reserved for "polite users". CrossRef will only contact you if there is an issue with your API use.</p>
+  <p class="preamble" translate>Translate.Configuration.Description</p>
 </div>
 <div *ngIf="form">
   <form [formGroup]="form">
     <section class="config-section">
       <mat-form-field>
-        <input matInput placeholder="Institutional URL" formControlName="InstitutionUrl" required url>
-        <mat-error *ngIf="InstitutionUrl.invalid">{{getUrlErrorMessage()}}</mat-error>
+        <mat-label>{{ 'Translate.Configuration.InstitutionalURL' | translate }}</mat-label>
+        <input matInput formControlName="institutionUrl" required url>
+        <mat-error *ngIf="institutionUrl.invalid">{{getUrlErrorMessage()}}</mat-error>
       </mat-form-field>
       <br/>
       <mat-form-field>
-        <input matInput placeholder="Contact email" formControlName="contactEmail" required email>
+        <mat-label>{{ 'Translate.Configuration.ContactEmail' | translate }}</mat-label>
+        <input matInput formControlName="contactEmail" required email>
         <mat-error *ngIf="contactEmail.invalid">{{getEmailErrorMessage()}}</mat-error>
       </mat-form-field>
-      </section>
+    </section>
+    <div class="commands-container">
+      <button mat-stroked-button type="button" color="primary" (click)="save()" [disabled]="!(form?.dirty)">{{ 'Translate.UI.Save' | translate }}</button>
+      <button mat-stroked-button type="button" color="default" (click)="reset()" [disabled]="!(form?.dirty)">{{ 'Translate.UI.Reset' | translate }}</button>
+    </div>
   </form>
 </div>
