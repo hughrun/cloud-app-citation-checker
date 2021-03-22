@@ -2,7 +2,7 @@
    "id": "citation-checker",
    "title": "Citation Checker",
    "subtitle": "An ANZREG Hackathon app",
-   "author": "Hugh Rundle",
+   "author": "Hugh Rundle; Daniel Henderson; Bronwyn King",
    "description": "Checks CrossRef to ensure citations are accurate",
    "icon": {
       "type": "font",
