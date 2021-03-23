@@ -1,14 +1,35 @@
-<ng-container 
-  *ngIf="(entities$ | async)?.length > 0; then entities; else noentities"
-  ></ng-container>
+<div class="loading-shade" *ngIf="loading">
+  <mat-spinner diameter="50"></mat-spinner>
+</div>
 
-<ng-template #noentities>
-  <h1 translate>Translate.Main.Title</h1>
+<div>
   <p translate>Translate.Main.Description</p>
-  <!-- <div class="highlight">Navigate to a page in Alma to view a list of entities.</div> -->
-</ng-template>
+  <hr />
+  <p translate>Translate.Main.Instructions</p>
+</div>
+<div class="section">
+  <form [formGroup]="searchForm">
+    <section class="search-options">
+        <mat-radio-group class="search-radio-group" [(ngModel)]="searchType" [ngModelOptions]="{standalone: true}">
+          <mat-radio-button value="doi" (click)="setSearchType(SEARCH_TYPE.DOI)">DOI</mat-radio-button>
+          <mat-radio-button value="metadata" (click)="setSearchType(SEARCH_TYPE.METADATA)">Metadata search</mat-radio-button>
+        </mat-radio-group>
+    </section>
+    <section class="" *ngIf="searchForm.controls.type.value === SEARCH_TYPE.DOI">
+      DOI
+    </section>
+    <section class="" *ngIf="searchForm.controls.type.value === SEARCH_TYPE.METADATA">
+      Metadata
+    </section>
+    <div class="commands-container">
+      <button mat-stroked-button type="button" color="primary" (click)="search()" [disabled]="!(form?.dirty)">{{ 'Translate.UI.Search' | translate }}</button>
+      <button mat-stroked-button type="button" color="default" (click)="reset()" [disabled]="!(form?.dirty)">{{ 'Translate.UI.Reset' | translate }}</button>
+    </div>
+  </form>
+</div>
 
-<ng-template #entities>
+
+<!-- <ng-template #entities>
   <h1 translate>Translate.Main.Title</h1>
   <p translate>Translate.Main.Description</p>
   <div class="eca-actions">
@@ -45,7 +66,4 @@
     </mat-radio-button>
   </mat-radio-group>
 </ng-template>
-
-<div class="loading-shade" *ngIf="loading">
-  <mat-spinner diameter="50"></mat-spinner>
-</div>
+ -->

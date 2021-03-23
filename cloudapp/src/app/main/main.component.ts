@@ -6,6 +6,7 @@ import { CloudAppRestService, CloudAppEventsService, Request, HttpMethod,
 import { MatRadioChange } from '@angular/material/radio';
 import { TranslateService } from '@ngx-translate/core';
 import { marker as _ } from '@biesbjerg/ngx-translate-extract-marker';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-main',
@@ -17,6 +18,12 @@ export class MainComponent implements OnInit, OnDestroy {
   loading = false;
   selectedEntity: Entity;
   apiResult: any;
+  searchForm: FormGroup;
+  
+  public SEARCH_TYPE = {
+    DOI: 'doi',
+    METADATA: 'metadata'
+  }
 
   entities$: Observable<Entity[]> = this.eventsService.entities$
   .pipe(tap(() => this.clear()))
@@ -25,14 +32,47 @@ export class MainComponent implements OnInit, OnDestroy {
     private restService: CloudAppRestService,
     private eventsService: CloudAppEventsService,
     private alert: AlertService,
+    private fb: FormBuilder,
     private translate: TranslateService
   ) { }
 
   ngOnInit() {
-
+    this.searchForm = this.fb.group({
+      type: this.fb.control('',[]),
+      doi: this.initDOIFormGroup(),
+      metadata: this.initMetadataFormGroup()
+    })
   }
 
   ngOnDestroy(): void {
+  }
+
+
+  setSearchType(type: string) {
+    const control: FormControl = (<any>this.searchForm).controls.type;
+    control.setValue(type);
+  }
+
+  search() {
+
+  }
+
+  reset() {
+
+  }
+
+  initDOIFormGroup() {
+    // DOI regex
+    const regex = new RegExp("/^10.\d{4,9}/[-._;()/:A-Z0-9]+$/i");
+    const group = this.fb.group({
+      doi: ['', Validators.pattern(regex)]
+    });
+
+    return group;
+  }
+
+  initMetadataFormGroup() {
+    // Metadata interrface
   }
 
   entitySelected(event: MatRadioChange) {
@@ -86,3 +126,7 @@ export class MainComponent implements OnInit, OnDestroy {
     return undefined;
   }
 }
+// this will return a single object or 404 if it isn't registered with CrossRef
+const crossRefDoiUrl = (doi:string) => `https://api.crossref.org/works/${doi}`;
+// this will return a list of objects (with pagination)
+const crossRefMetadataUrl = (query:string) => ``;

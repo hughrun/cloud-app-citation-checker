@@ -19,7 +19,8 @@ export class ConfigurationComponent implements OnInit {
 
   form: FormGroup;
   saving = false;
-  
+  urlPattern: RegExp = /^(https?):\/*(?:[^:@]+(?::[^@]+)?@)?(?:[^\s:/?#]+|\[[a-f\d:]+])(?::\d+)?(?:\/[^?#]*)?(?:\?[^#]*)?(?:#.*)?$/i;
+
   constructor(
     private appService: AppService,
     private fb: FormBuilder,
@@ -32,45 +33,53 @@ export class ConfigurationComponent implements OnInit {
   ngOnInit() {
 
     this.translate.get('Translate.Configuration.Title').subscribe(text => this.appService.setTitle(text));
-    
+
     this.form = this.fb.group({
-      institutionUrl: this.fb.control('', [Validators.required] ),
+      institutionUrl: this.fb.control('', [Validators.required, Validators.pattern(this.urlPattern)]),
       contactEmail: this.fb.control('', [Validators.required, Validators.email])
     });
     this.load();
   }
 
   load() {
-    this.configService.getAsFormGroup().subscribe( config => {
-      if (Object.keys(config.value).length!=0) {
+    this.saving = true;
+    this.configService.getAsFormGroup().subscribe(config => {
+      if (Object.keys(config.value).length != 0) {
         this.form = config;
       }
-    });   
+    }, err => this.alert.error(err.message),
+      () => this.saving = false
+    );
   }
 
   save() {
+
+    if (this.form.invalid) {
+      this.alert.error(this.translate.instant('Translate.Configuration.InvalidForm'));
+      return;
+    }
+
     this.saving = true;
+
     this.configService.set(this.form.value).subscribe(
       () => {
-        this.alert.success(_('Translate.Configuration.SavedSuccessfully'));
+        this.alert.success(this.translate.instant('Translate.Configuration.SavedSuccessfully'));
         this.form.markAsPristine();
       },
       err => this.alert.error(err.message),
-      ()  => this.saving = false
+      () => this.saving = false
     );
   }
 
   onLoadOrReset() {
-    this.configService.get().subscribe( response => {
-      console.log('response');
-    })
+    this.load();
   }
 
-  get contactEmail() { return this.form.get('contactEmail')}
-  get institutionUrl() { return this.form.get('institutionUrl')}
-  
+  get contactEmail() { return this.form.get('contactEmail') }
+  get institutionUrl() { return this.form.get('institutionUrl') }
+
   getEmailErrorMessage() {
-    
+
     if (this.contactEmail.hasError('required')) {
       return this.translate.instant('Translate.Errors.ValueMissing');
     }
@@ -80,47 +89,47 @@ export class ConfigurationComponent implements OnInit {
     }
 
     else return this.translate.instant('Translate.Errors.InvalidValue');
-    }
-
-    getUrlErrorMessage() {
-
-      if (this.institutionUrl.hasError('required')) {
-        return this.translate.instant('Translate.Errors.ValueMissing');
-      }
-
-      else if (this.institutionUrl.hasError('url')) {
-        return this.translate.instant('Translate.Errors.InvalidInstitutionURL');
-      }
-
-      else return this.translate.instant('Translate.Errors.InvalidValue');
-      }
-
   }
 
+  getUrlErrorMessage() {
 
-  @Injectable({
-    providedIn: 'root',
-  })
-  export class ConfigurationGuard implements CanActivate {
-    constructor (
-      private eventsService: CloudAppEventsService,
-      private restService: CloudAppRestService,
-      private router: Router
-    ) {}
-
-    // only general site administrators can access this page
-    canActivate(): Observable<boolean> {
-      return this.eventsService.getInitData().pipe(
-        switchMap( initData => this.restService.call(`/users/${initData.user.primaryId}`)),
-        map( user => {
-          if (!user.user_role.some(role => role.role_type.value = 'GenAdmin')) {
-            this.router.navigate(['/error'], {
-              queryParams: { error: ErrorMessages.NO_ACCESS}
-            });
-            return false;
-          }
-          return true;
-        })
-      )
+    if (this.institutionUrl.hasError('required')) {
+      return this.translate.instant('Translate.Errors.ValueMissing');
     }
+
+    else if (this.institutionUrl.hasError('url')) {
+      return this.translate.instant('Translate.Errors.InvalidInstitutionURL');
+    }
+
+    else return this.translate.instant('Translate.Errors.InvalidValue');
   }
+
+}
+
+
+@Injectable({
+  providedIn: 'root',
+})
+export class ConfigurationGuard implements CanActivate {
+  constructor(
+    private eventsService: CloudAppEventsService,
+    private restService: CloudAppRestService,
+    private router: Router
+  ) { }
+
+  // only general site administrators can access this page
+  canActivate(): Observable<boolean> {
+    return this.eventsService.getInitData().pipe(
+      switchMap(initData => this.restService.call(`/users/${initData.user.primaryId}`)),
+      map(user => {
+        if (!user.user_role.some(role => role.role_type.value = 'GenAdmin')) {
+          this.router.navigate(['/error'], {
+            queryParams: { error: ErrorMessages.NO_ACCESS }
+          });
+          return false;
+        }
+        return true;
+      })
+    )
+  }
+}

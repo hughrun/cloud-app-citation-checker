@@ -1,7 +1,13 @@
-.entities-radio-group {
+.search-radio-group {
   display: flex;
   flex-direction: column;
   margin: 15px 0;
+}
+
+.commands-container {
+  button {
+    margin-right: 10px;
+  }
 }
 
 textarea {

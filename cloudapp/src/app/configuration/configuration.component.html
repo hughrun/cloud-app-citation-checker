@@ -15,19 +15,19 @@
     <section class="config-section">
       <mat-form-field>
         <mat-label>{{ 'Translate.Configuration.InstitutionalURL' | translate }}</mat-label>
-        <input matInput formControlName="institutionUrl" required url>
+        <input matInput formControlName="institutionUrl" required url autocomplete="off">
         <mat-error *ngIf="institutionUrl.invalid">{{getUrlErrorMessage()}}</mat-error>
       </mat-form-field>
       <br/>
       <mat-form-field>
         <mat-label>{{ 'Translate.Configuration.ContactEmail' | translate }}</mat-label>
-        <input matInput formControlName="contactEmail" required email>
+        <input matInput formControlName="contactEmail" required email autocomplete="off">
         <mat-error *ngIf="contactEmail.invalid">{{getEmailErrorMessage()}}</mat-error>
       </mat-form-field>
     </section>
     <div class="commands-container">
-      <button mat-stroked-button type="button" color="primary" (click)="save()" [disabled]="!(form?.dirty)">{{ 'Translate.UI.Save' | translate }}</button>
-      <button mat-stroked-button type="button" color="default" (click)="reset()" [disabled]="!(form?.dirty)">{{ 'Translate.UI.Reset' | translate }}</button>
+      <button mat-stroked-button type="button" color="primary" (click)="save()" [disabled]="!(form?.dirty) || form?.invalid">{{ 'Translate.UI.Save' | translate }}</button>
+      <button mat-stroked-button type="button" color="default" (click)="onLoadOrReset()" [disabled]="!(form?.dirty)">{{ 'Translate.UI.Reset' | translate }}</button>
     </div>
   </form>
 </div>

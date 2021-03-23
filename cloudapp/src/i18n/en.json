@@ -2,20 +2,26 @@
     "Translate": {
         "Main": {
             "Title": "Citation Checker",
-            "Description": "This app communicates with the CrossRef API. It is highly recommended that you set the contact details as required by CrossRef to ensure a good searching experience."
+            "Description": "This app communicates with the CrossRef API. It is highly recommended that you set the contact details as required by CrossRef to ensure a good searching experience.",
+            "Instructions": "You can search either by the article's DOI or one or more of the metadata fields."
+        },
+        "Search": {
+            "Type": "Search type"
         },
         "Configuration": {
             "Title": "Configuration",
             "Description": "These details will be sent to CrossRef with each API call. This allows you to use the more reliable servers reserved for \"polite users\". CrossRef will only contact you if there is an issue with your API use. Note that the CrossRef service is only called on demand.",
             "ContactEmail": "Contact Email Address",
             "InstitutionalURL": "Institution URL",
-            "SavedSuccessfully": "Configuration successfully saved."
+            "SavedSuccessfully": "Configuration successfully saved.",
+            "InvalidForm": "Form could not save due to invalid data, please check entered information."
         },
         "UI": {
+            "Search": "Search",
             "Back": "Back",
             "Save": "Save",
             "Update": "Update",
-            "Reset": "Reset Form",
+            "Reset": "Reset",
             "Clear": "Clear"
         },
         "Errors": {
@@ -23,7 +29,7 @@
             "NoAccess": "You do not have access to this page.",
             "ValueMissing": "Please enter a value.",
             "InvalidValue": "Invalid value entered.",
-            "InvalidEmail": "Invalid email address entered.",
+            "InvalidEmail": "Invalid email address entered. Emails must be in the format email@example.com.",
             "InvalidInstitutionURL": "Institution URL must begin with http:// or https://."
         }
     }
