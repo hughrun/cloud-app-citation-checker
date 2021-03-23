@@ -11,13 +11,13 @@ export class AppService {
     private title = new BehaviorSubject<String>('App title');
     private title$ = this.title.asObservable();
 
-    constructor(private initService: InitService) {}
+    constructor(private initService: InitService) { }
 
     setTitle(title: String) {
-      this.title.next(title);
-  }
-  
-  getTitle(): Observable<String> {
-      return this.title$;
-  }
+        this.title.next(title);
+    }
+
+    getTitle(): Observable<String> {
+        return this.title$;
+    }
 }

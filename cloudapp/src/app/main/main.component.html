@@ -10,24 +10,53 @@
 <div class="section">
   <form [formGroup]="searchForm">
     <section class="search-options">
-        <mat-radio-group class="search-radio-group" [(ngModel)]="searchType" [ngModelOptions]="{standalone: true}">
-          <mat-radio-button value="doi" (click)="setSearchType(SEARCH_TYPE.DOI)">DOI</mat-radio-button>
-          <mat-radio-button value="metadata" (click)="setSearchType(SEARCH_TYPE.METADATA)">Metadata search</mat-radio-button>
-        </mat-radio-group>
+      <mat-radio-group class="search-radio-group" [(ngModel)]="type" [ngModelOptions]="{standalone: true}">
+        <mat-radio-button (click)="setSearchType(SEARCH_TYPE.DOI)" selected="true">DOI</mat-radio-button>
+        <mat-radio-button (click)="setSearchType(SEARCH_TYPE.METADATA)">Metadata search</mat-radio-button>
+      </mat-radio-group>
     </section>
-    <section class="" *ngIf="searchForm.controls.type.value === SEARCH_TYPE.DOI">
-      DOI
+    <section class="" *ngIf="searchForm.controls.type.value === SEARCH_TYPE.DOI" formGroupName="doi">
+      <mat-form-field class="mat-form-field">
+        <mat-label>{{ 'Translate.Search.DOI' | translate }}</mat-label>
+        <input matInput formControlName="doiSearch" name="doiSearch" autocomplete="off" required pattern="^10.\d{4,9}\/[-._;()\/:a-zA-Z0-9]+$">
+        <mat-error *ngIf="searchForm.controls.doi.controls.doiSearch.touched && !searchForm.controls.doi.controls.doiSearch.pattern">{{getDoiSearchErrorMessage()}}</mat-error>
+      </mat-form-field>
     </section>
-    <section class="" *ngIf="searchForm.controls.type.value === SEARCH_TYPE.METADATA">
-      Metadata
+    <section class="" *ngIf="searchForm.controls.type.value === SEARCH_TYPE.METADATA" formGroupName="metadata">
+      Metadata - coming soon!
     </section>
     <div class="commands-container">
-      <button mat-stroked-button type="button" color="primary" (click)="search()" [disabled]="!(form?.dirty)">{{ 'Translate.UI.Search' | translate }}</button>
-      <button mat-stroked-button type="button" color="default" (click)="reset()" [disabled]="!(form?.dirty)">{{ 'Translate.UI.Reset' | translate }}</button>
+      <button mat-stroked-button type="button" color="primary" (click)="search()" [disabled]="!(searchForm?.dirty)">{{ 'Translate.UI.Search' | translate }}</button>
+      <button mat-stroked-button type="button" color="default" (click)="reset()" [disabled]="!(searchForm?.dirty)">{{ 'Translate.UI.Reset' | translate }}</button>
     </div>
   </form>
 </div>
-
+<div class="section" *ngIf="searchResults">
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>Search results</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <mat-list>
+        <mat-list-item *ngFor="let item of searchResults.items">
+          <h3 matLine>{{ item.title }}</h3>
+          <p matLine>
+            <span *ngIf="item.subtitle.length > 0">{{ item.subtitle }}</span>
+          </p>
+          <p matLine *ngIf="item.author.length > 0">
+            <span><strong>Author:</strong> {{ item.author }}</span>
+          </p>
+          <p matLine>
+            <span *ngIf="item.ISSN.length > 0"><strong>ISSN:</strong> {{ item.ISSN }}</span>
+          </p>
+          <p matLine>
+            <span *ngIf="item.DOI.length > 0"><strong>DOI:</strong> {{ item.DOI }}</span>
+          </p>
+        </mat-list-item>
+      </mat-list>
+    </mat-card-content>
+  </mat-card>
+</div>
 
 <!-- <ng-template #entities>
   <h1 translate>Translate.Main.Title</h1>

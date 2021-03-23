@@ -6,7 +6,8 @@
             "Instructions": "You can search either by the article's DOI or one or more of the metadata fields."
         },
         "Search": {
-            "Type": "Search type"
+            "Type": "Search type",
+            "DOI": "Search DOI"
         },
         "Configuration": {
             "Title": "Configuration",
@@ -30,7 +31,8 @@
             "ValueMissing": "Please enter a value.",
             "InvalidValue": "Invalid value entered.",
             "InvalidEmail": "Invalid email address entered. Emails must be in the format email@example.com.",
-            "InvalidInstitutionURL": "Institution URL must begin with http:// or https://."
+            "InvalidInstitutionURL": "Institution URL must begin with http:// or https://.",
+            "InvalidDOI": "DOI must be in the following format X/X, e.g. 10.0000/000000000."
         }
     }
 }

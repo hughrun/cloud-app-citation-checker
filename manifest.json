@@ -11,5 +11,10 @@
    "license": "https://github.com/hughrun/cloud-app-citation-checker/LICENSE",
    "pages": {
       "config": "/#/configuration"
+   },
+   "contentSecurity": {
+      "connectSrc": [
+         "https://api.crossref.org/"
+      ]
    }
 }

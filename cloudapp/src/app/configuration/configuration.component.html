@@ -15,14 +15,14 @@
     <section class="config-section">
       <mat-form-field>
         <mat-label>{{ 'Translate.Configuration.InstitutionalURL' | translate }}</mat-label>
-        <input matInput formControlName="institutionUrl" required url autocomplete="off">
-        <mat-error *ngIf="institutionUrl.invalid">{{getUrlErrorMessage()}}</mat-error>
+        <input matInput id="institutionUrl" formControlName="institutionUrl" required pattern="^(https?):\/*(?:[^:@]+(?::[^@]+)?@)?(?:[^\s:/?#]+|\[[a-f\d:]+])(?::\d+)?(?:\/[^?#]*)?(?:\?[^#]*)?(?:#.*)?" autocomplete="off" type="url">
+        <mat-error *ngIf="form.controls.institutionUrl.touched && form.controls.institutionUrl.invalid">{{getUrlErrorMessage()}}</mat-error>
       </mat-form-field>
       <br/>
       <mat-form-field>
         <mat-label>{{ 'Translate.Configuration.ContactEmail' | translate }}</mat-label>
-        <input matInput formControlName="contactEmail" required email autocomplete="off">
-        <mat-error *ngIf="contactEmail.invalid">{{getEmailErrorMessage()}}</mat-error>
+        <input matInput id="contactEmail" formControlName="contactEmail" required email autocomplete="off" type="email">
+        <mat-error *ngIf="form.controls.contactEmail.touched && (form.controls.contactEmail.invalid || form.controls.contactEmail.required)">{{getEmailErrorMessage()}}</mat-error>
       </mat-form-field>
     </section>
     <div class="commands-container">

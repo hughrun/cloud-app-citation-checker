@@ -1,6 +1,6 @@
 import { Component, Injectable, OnInit } from '@angular/core';
 import { AppService } from '../app.service';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { CloudAppConfigService, AlertService, CloudAppEventsService, CloudAppRestService } from '@exlibris/exl-cloudapp-angular-lib';
 import { CanActivate, Router } from '@angular/router';
 import { Observable, iif, of, isObservable } from 'rxjs';
@@ -8,6 +8,7 @@ import { map, switchMap } from 'rxjs/operators';
 import { ErrorMessages } from '../static/error.component';
 import { TranslateService } from '@ngx-translate/core';
 import { marker as _ } from '@biesbjerg/ngx-translate-extract-marker';
+import { CrossRefService } from '../services/crossref.service';
 
 @Component({
   selector: 'app-configuration',
@@ -19,24 +20,24 @@ export class ConfigurationComponent implements OnInit {
 
   form: FormGroup;
   saving = false;
-  urlPattern: RegExp = /^(https?):\/*(?:[^:@]+(?::[^@]+)?@)?(?:[^\s:/?#]+|\[[a-f\d:]+])(?::\d+)?(?:\/[^?#]*)?(?:\?[^#]*)?(?:#.*)?$/i;
+  urlPattern: RegExp = /^(https?):\/*(?:[^:@]+(?::[^@]+)?@)?(?:[^\s:/?#]+|\[[a-f\d:]+])(?::\d+)?(?:\/[^?#]*)?(?:\?[^#]*)?(?:#.*)?/;
 
   constructor(
     private appService: AppService,
-    private fb: FormBuilder,
     private configService: CloudAppConfigService,
     private alert: AlertService,
     private translate: TranslateService,
-    private router: Router
+    private router: Router,
+    private crossRef: CrossRefService
   ) { }
 
   ngOnInit() {
 
     this.translate.get('Translate.Configuration.Title').subscribe(text => this.appService.setTitle(text));
 
-    this.form = this.fb.group({
-      institutionUrl: this.fb.control('', [Validators.required, Validators.pattern(this.urlPattern)]),
-      contactEmail: this.fb.control('', [Validators.required, Validators.email])
+    this.form = new FormGroup({
+      institutionUrl: new FormControl('', [Validators.required, Validators.pattern(this.urlPattern)]),
+      contactEmail: new FormControl('', [Validators.required, Validators.email])
     });
     this.load();
   }
@@ -97,7 +98,7 @@ export class ConfigurationComponent implements OnInit {
       return this.translate.instant('Translate.Errors.ValueMissing');
     }
 
-    else if (this.institutionUrl.hasError('url')) {
+    else if (this.institutionUrl.hasError('pattern')) {
       return this.translate.instant('Translate.Errors.InvalidInstitutionURL');
     }
 
