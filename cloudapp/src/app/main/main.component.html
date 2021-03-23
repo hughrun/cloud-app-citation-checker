@@ -47,6 +47,9 @@
             <span><strong>Author:</strong> {{ item.author }}</span>
           </p>
           <p matLine>
+            <span *ngIf="item.publisher.length > 0"><strong>Publisher:</strong> {{ item.publisher }}</span>
+          </p>
+          <p matLine>
             <span *ngIf="item.ISSN.length > 0"><strong>ISSN:</strong> {{ item.ISSN }}</span>
           </p>
           <p matLine>

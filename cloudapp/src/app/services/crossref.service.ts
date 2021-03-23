@@ -50,7 +50,7 @@ export class CrossRefService {
                     author: authors.join("; "),
                     subtitle: Array.from(body.subtitle).join("; "),
                     volume: body.volume,
-                    journal: body.publisher
+                    publisher: body.publisher
                 }
                 resultSet.items.push(item);
                 resultSet.results = resultSet.items.length;

@@ -12,7 +12,7 @@ export class CrossrefResult {
     title: string;
     subtitle: string;
     volume: string;
-    journal: string;
+    publisher: string;
 }
 
 export class CrossrefResultSet {
