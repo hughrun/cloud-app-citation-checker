@@ -16,6 +16,11 @@ Use the app to attempt to match other bibliographic elements against CrossRef. M
 
 Both app actions enhance the accuracy of the details in the form therefore the request is more likely to be filled in a timely fashion.
 
+### Alma navigation:
+
+Fulfillment > Resource Sharing / Borrowing Requests
+Then either edit the request that requires validation OR add a new request (> Add > Manually > select Book or Article).
+
 ### Use cases
 
 * Pre-filling of the request form where the DOI is known.  Saves staff staff and enhances accuracy.
