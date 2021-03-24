@@ -15,7 +15,7 @@
     <section class="config-section">
       <mat-form-field>
         <mat-label>{{ 'Translate.Configuration.InstitutionalURL' | translate }}</mat-label>
-        <input matInput id="institutionUrl" formControlName="institutionUrl" required pattern="^(https?):\/*(?:[^:@]+(?::[^@]+)?@)?(?:[^\s:/?#]+|\[[a-f\d:]+])(?::\d+)?(?:\/[^?#]*)?(?:\?[^#]*)?(?:#.*)?" autocomplete="off" type="url">
+        <input matInput id="institutionUrl" formControlName="institutionUrl" required pattern="^(https?):\/*(?:[^:@]+(?::[^@]+)?@)?(?:[^\s:/?#]+|\[[a-f\d:]+\])(?::\d+)?(?:\/[^?#]*)?(?:\?[^#]*)?(?:#.*)?" autocomplete="off" type="url">
         <mat-error *ngIf="form.controls.institutionUrl.touched && form.controls.institutionUrl.invalid">{{getUrlErrorMessage()}}</mat-error>
       </mat-form-field>
       <br/>
