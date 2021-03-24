@@ -4,17 +4,17 @@ This is a Cloud App for [Ex Libris](https://github.com/ExLibrisGroup) Alma libra
 
 ## PURPOSE
 
-This Alma cloud app interoperates with Alma's Resource Sharing blank forms.
+This Alma cloud app interoperates with Alma's Resource Sharing forms: Books and Articles
 
 Alma staff may use the app to either:
 
-Enter a DOI into the DOI field (Article form only). The app will then attempt to match the DOI against CrossRef. If a match is found that record is displayed. The end user may then either accept or reject the record. If accepted, the form is pre-populated saving Library staff processing time.
+Enter a DOI into the DOI field (Article form only). The app will then attempt to match the DOI against CrossRef. If a match is found that record is displayed. The end user may then either accept or reject the record. If accepted, the form is populated with data elements from the matched record. For new requests staff processing time is minimsed.
 
 OR
 
-Enter known bibliographic information (particularly title and author). The app will then attempt to match the bibliographic elements against CrossRef. Matched records are displayed in order of relevancy. The end user may then either select the required record or reject all records. If accepted, the form is pre-populated saving Library staff processing time.
-Both actions enhance the accuracy of the details in the form therefore the request is more likely to be filled in a timely fashion.
+Use the app to attempt to match other bibliographic elements against CrossRef. Matched records are displayed in order of relevancy. The end user may then either select the required record or reject all records. If accepted, the form is populated with data elements from the matched record.
 
+Both app actions enhance the accuracy of the details in the form therefore the request is more likely to be filled in a timely fashion.
 
 ### Use cases
 
