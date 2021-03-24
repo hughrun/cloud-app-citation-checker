@@ -4,13 +4,23 @@ This is a Cloud App for [Ex Libris](https://github.com/ExLibrisGroup) Alma libra
 
 ## PURPOSE
 
-This Cloud App looks up titles in citation indexes such as [CrossRef](https://www.crossref.org/) when citations data is reported as bad, or Alma cannot find it in its repository/openURL.
+This Alma cloud app interoperates with Alma's Resource Sharing blank forms.
+
+Alma staff may use the app to either:
+
+Enter a DOI into the DOI field (Article form only). The app will then attempt to match the DOI against CrossRef. If a match is found that record is displayed. The end user may then either accept or reject the record. If accepted, the form is pre-populated saving Library staff processing time.
+
+OR
+
+Enter known bibliographic information (particularly title and author). The app will then attempt to match the bibliographic elements against CrossRef. Matched records are displayed in order of relevancy. The end user may then either select the required record or reject all records. If accepted, the form is pre-populated saving Library staff processing time.
+Both actions enhance the accuracy of the details in the form therefore the request is more likely to be filled in a timely fashion.
+
 
 ### Use cases
 
-* Patrons may have submitted bad citation data for requesting resources via Rapid ILL
-* Sometimes citation data needs to be confirmed and checked
-* Prefilling ILL request forms, given a DOI URL.
+* Pre-filling of the request form where the DOI is known.  Saves staff staff and enhances accuracy.
+* Patrons may have submitted bad citation data for requesting resources via Rapid ILL.
+* Sometimes citation data needs to be confirmed and checked.
 
 ### Citation Indexes
 
