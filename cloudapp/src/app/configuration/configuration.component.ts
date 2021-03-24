@@ -20,7 +20,7 @@ export class ConfigurationComponent implements OnInit {
 
   form: FormGroup;
   saving = false;
-  urlPattern: RegExp = /^(https?):\/*(?:[^:@]+(?::[^@]+)?@)?(?:[^\s:/?#]+|\[[a-f\d:]+])(?::\d+)?(?:\/[^?#]*)?(?:\?[^#]*)?(?:#.*)?/;
+  urlPattern: RegExp = /^(https?):\/*(?:[^:@]+(?::[^@]+)?@)?(?:[^\s:/?#]+|\[[a-f\d:]+\])(?::\d+)?(?:\/[^?#]*)?(?:\?[^#]*)?(?:#.*)?/;
 
   constructor(
     private appService: AppService,
