@@ -1,4 +1,6 @@
-This is a Cloud App for [Ex Libris](https://github.com/ExLibrisGroup) Alma library software. This is also very much a work in progress!
+This is a "draft" Cloud App for [Ex Libris](https://github.com/ExLibrisGroup) Alma library software, created for the ANZREG hackathon held in early 2021.
+
+If you wish to use this code to create a live Alma Cloud App please create your own fork, as the repository has been archived.
 
 ---
 
